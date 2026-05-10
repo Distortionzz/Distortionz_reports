@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Distortionz Reports</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     Root container — pointer-events: none on body, auto on .panel so the
+     game stays interactive everywhere except the panel itself.
+     ════════════════════════════════════════════════════════════════════════ -->
+<div id="root" class="hidden">
+
+    <div class="panel">
+
+        <!-- ─── Header ─────────────────────────────────────────────── -->
+        <header class="panel-header">
+            <div class="brand">
+                <span class="brand-mark">DZ</span>
+                <span class="brand-text">Reports</span>
+            </div>
+
+            <nav class="tabs">
+                <button class="tab" data-view="submit">Submit</button>
+                <button class="tab" data-view="mine">My Reports</button>
+                <button class="tab staff-only" data-view="queue">Staff Queue <span class="badge" id="queueCount">0</span></button>
+            </nav>
+
+            <button class="close-btn" id="closeBtn" title="Close (ESC)">×</button>
+        </header>
+
+        <!-- ─── Body ───────────────────────────────────────────────── -->
+        <main class="panel-body">
+
+            <!-- View: SUBMIT ─────────────────────────────────────── -->
+            <section class="view" data-view="submit">
+                <h2 class="view-title">New Report</h2>
+                <p class="view-sub">Use this form to report a bug, another player, or ask staff a question.</p>
+
+                <form id="submitForm" class="form">
+                    <label class="field">
+                        <span class="field-label">Category</span>
+                        <div class="cat-grid" id="categoryGrid"></div>
+                    </label>
+
+                    <label class="field">
+                        <span class="field-label">Subject</span>
+                        <input type="text" id="subjectInput" maxlength="80" placeholder="One-line summary..." required>
+                        <span class="field-hint"><span id="subjectCount">0</span>/80</span>
+                    </label>
+
+                    <label class="field">
+                        <span class="field-label">Details</span>
+                        <textarea id="bodyInput" maxlength="2000" rows="8" placeholder="Tell us everything — when, where, who, what happened..." required></textarea>
+                        <span class="field-hint"><span id="bodyCount">0</span>/2000</span>
+                    </label>
+
+                    <div class="form-actions">
+                        <span class="form-error" id="submitError"></span>
+                        <button type="submit" class="btn primary" id="submitBtn">Submit Report</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- View: MY REPORTS ─────────────────────────────────── -->
+            <section class="view" data-view="mine">
+                <h2 class="view-title">My Reports</h2>
+                <p class="view-sub">All reports you've submitted, newest first.</p>
+
+                <div class="list" id="mineList">
+                    <div class="empty-state">No reports yet.</div>
+                </div>
+            </section>
+
+            <!-- View: STAFF QUEUE ────────────────────────────────── -->
+            <section class="view" data-view="queue">
+                <h2 class="view-title">Open Reports</h2>
+                <p class="view-sub">Open + claimed reports. Closed reports are kept in the database but hidden here.</p>
+
+                <div class="queue-toolbar">
+                    <div class="filter-group" id="categoryFilter">
+                        <button class="filter active" data-cat="all">All</button>
+                    </div>
+                    <button class="btn ghost small" id="refreshQueueBtn">Refresh</button>
+                </div>
+
+                <div class="list" id="queueList">
+                    <div class="empty-state">No open reports.</div>
+                </div>
+            </section>
+
+            <!-- View: REPORT THREAD (modal-style) ────────────────── -->
+            <section class="view thread-view" data-view="thread">
+                <button class="back-btn" id="backBtn">← Back</button>
+
+                <div class="thread-header">
+                    <div class="thread-meta">
+                        <span class="thread-id" id="threadId">#0</span>
+                        <span class="thread-cat" id="threadCat">—</span>
+                        <span class="thread-status" id="threadStatus">open</span>
+                    </div>
+                    <h2 class="thread-subject" id="threadSubject">—</h2>
+                    <div class="thread-author">
+                        <span id="threadReporter">—</span>
+                        <span class="dot-sep">•</span>
+                        <span id="threadCreated">—</span>
+                    </div>
+                </div>
+
+                <div class="thread-actions" id="threadActions"></div>
+
+                <div class="thread-body" id="threadBody"></div>
+
+                <form id="replyForm" class="reply-form">
+                    <textarea id="replyInput" maxlength="2000" rows="3" placeholder="Type a reply..."></textarea>
+                    <div class="reply-actions">
+                        <span class="form-hint"><span id="replyCount">0</span>/2000</span>
+                        <button type="submit" class="btn primary small">Send</button>
+                    </div>
+                </form>
+            </section>
+
+        </main>
+
+        <!-- ─── In-panel toast (replaces alert) ──────────────────── -->
+        <div id="toast" class="toast hidden"></div>
+
+        <!-- ─── Confirm modal (replaces confirm) ─────────────────── -->
+        <div id="confirmModal" class="modal-overlay hidden">
+            <div class="modal-card">
+                <h3 class="modal-title" id="confirmTitle">Are you sure?</h3>
+                <p class="modal-message" id="confirmMessage">This action cannot be undone.</p>
+                <div class="modal-actions">
+                    <button class="btn ghost" id="confirmCancel">Cancel</button>
+                    <button class="btn danger" id="confirmOk">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

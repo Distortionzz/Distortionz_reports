@@ -1,0 +1,6 @@
+{
+    "version": "1.0.2",
+    "name": "distortionz_reports",
+    "download": "https://github.com/Distortionzz/Distortionz_Reports",
+    "changelog": "v1.0.2 — Perms hydration race fix. After connect (or a perms restart) the local perms cache was 'none' until the 2s warmup callback completed; if a staff member pressed F6 in that window they got a false 'You do not have permission' toast even though they were actually staff. Now reports forces a fresh perms refresh via the new exports.distortionz_perms:RefreshTier() (requires distortionz_perms v1.0.1+) before deciding, both for the F6/openQueue path and for the bootstrap payload that controls Staff Queue tab visibility. v1.0.1 — CRITICAL alt+f4 hang fix (native confirm/alert). v1.0.0 — Initial release."
+}
