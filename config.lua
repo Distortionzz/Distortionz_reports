@@ -3,7 +3,7 @@ Config = Config or {}
 -- ─── Script meta ────────────────────────────────────────────────────
 Config.Script = {
     name    = 'Distortionz Reports',
-    version = '1.0.2',
+    version = '1.0.3',
 }
 
 Config.VersionCheck = {
@@ -11,7 +11,7 @@ Config.VersionCheck = {
     checkOnStart = true,
     url          = 'https://raw.githubusercontent.com/Distortionzz/Distortionz_Reports/main/version.json',
 }
-Config.CurrentVersion = '1.0.2'
+Config.CurrentVersion = '1.0.3'
 
 -- ─── Notifications ──────────────────────────────────────────────────
 Config.Notify = {
